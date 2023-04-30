@@ -1327,7 +1327,7 @@ precision highp float;
   </div>
   <div class="popup__data-group">
     <p class="popup__data-group-label">timezone</p>
-    <h4 class="popup__data-group-text">UTC ${Si>0?`+ ${Si}:00`:`-${Si}:00`}</h4>
+    <h4 class="popup__data-group-text">UTC ${Si>0?`+ ${Si}:00`:`${Si}:00`}</h4>
   </div>
   ${mi?`<div class="popup__data-group border-none">
         <p class="popup__data-group-label">isp</p>
