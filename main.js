@@ -1,8 +1,10 @@
+("use strict");
 import mapboxgl from "mapbox-gl";
 import createMarker from "./components/createMarker";
 import createPopup from "./components/createPopup";
 import displayData from "./components/displayingData";
-("use strict");
+import displayNavigationControls from "./components/navigationControl";
+
 // SELECTIONS
 const inputField = document.querySelector(".form__input-address");
 const submitButton = document.querySelector(".form__btn");
@@ -94,6 +96,8 @@ if (navigator.geolocation) {
       const userCoordinates = getUserCoordinates(position);
       // assgining map to the function that creates a map
       createMap(userCoordinates, 8, map);
+      // showing zoom controls on the map;
+      map.addControl(displayNavigationControls(), "bottom-right");
       // fetching the data at the load of the page
       fetchData(GEOLOCATION_BASE_URL);
       // EVENT LISTENER
