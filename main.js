@@ -1,5 +1,7 @@
 import mapboxgl from "mapbox-gl";
-
+import createMarker from "./components/createMarker";
+import createPopup from "./components/createPopup";
+import displayData from "./components/displayingData";
 ("use strict");
 // SELECTIONS
 const inputField = document.querySelector(".form__input-address");
@@ -17,18 +19,7 @@ const GEOLOCATION_BASE_URL = `https://api.ipgeolocation.io/ipgeo?apiKey=${GEOLOC
 // GLOBALS
 let map;
 
-// FUNCTIONS
-const createMarker = (color, coords, attachPopup, mapEl) => {
-  return new mapboxgl.Marker({ color: `${color}` })
-    .setLngLat(coords) // array [lat,lng]
-    .setPopup(attachPopup)
-    .addTo(mapEl);
-};
-
-const createPopup = (offsetVal, textContent) => {
-  return new mapboxgl.Popup({ offset: offsetVal }).setText(`${textContent}`);
-};
-
+// Creating the map
 const createMap = (coords, zoom) => {
   map = new mapboxgl.Map({
     container: "map",
@@ -36,51 +27,6 @@ const createMap = (coords, zoom) => {
     center: coords,
     zoom: zoom,
   });
-};
-const showData = (data) => {
-  // renaming the destructured values
-  const {
-    ip,
-    isp,
-    country_capital,
-    country_code2,
-    latitude,
-    longitude,
-    zipcode,
-    country_flag,
-  } = data;
-  const { offset } = data.time_zone;
-  const html = `<div class="popup">
-  <div class="popup__data-group">
-    <p class="popup__data-group-label">ip address</p>
-    <h4 class="popup__data-group-text">${ip}</h4>
-  </div>
-  <div class="popup__data-group">
-    <p class="popup__data-group-label">location</p>
-    <h4 class="popup__data-group-text">${country_capital}, ${country_code2} ${
-    zipcode ? zipcode : ""
-  }</h4>
-  <img src="${country_flag}">
-  </div>
-  <div class="popup__data-group">
-    <p class="popup__data-group-label">timezone</p>
-    <h4 class="popup__data-group-text">UTC ${
-      offset > 0 ? `+ ${offset}:00` : `-${offset}:00`
-    }</h4>
-  </div>
-  ${
-    isp
-      ? `<div class="popup__data-group border-none">
-        <p class="popup__data-group-label">isp</p>
-        <h4 class="popup__data-group-text">${isp}</h4>
-      </div>`
-      : ""
-  }
-  
-</div>
-</div>`;
-  informationContainer.insertAdjacentHTML("beforeend", html);
-  return [latitude, longitude];
 };
 const fetchGeolocationData = (url) => {
   return fetch(`${url}`);
@@ -109,7 +55,7 @@ const fetchData = (url) => {
           inputField.classList.add("error-input");
           return;
         }
-        const coordinates = showData(responseData);
+        const coordinates = displayData(responseData, informationContainer);
         if (
           coordinates[0] < -99 ||
           coordinates[0] > 99 ||
@@ -130,7 +76,10 @@ const fetchData = (url) => {
         setView(map, coordinates);
         return responseData;
       },
-      (error) => console.log(error)
+      (error) => {
+        errorLabel.textContent = `Please Enter a correct IPV4 or IPV6 address`;
+        inputField.classList.add("error-input");
+      }
     )
     // Clearing the input field after the data has been used using .finally this basacially will run anyway either fullfiled or reject
     .finally(() => {
@@ -144,7 +93,7 @@ if (navigator.geolocation) {
       // getting user coordinates
       const userCoordinates = getUserCoordinates(position);
       // assgining map to the function that creates a map
-      createMap(userCoordinates, 8);
+      createMap(userCoordinates, 8, map);
       // fetching the data at the load of the page
       fetchData(GEOLOCATION_BASE_URL);
       // EVENT LISTENER
