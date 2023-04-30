@@ -28,7 +28,7 @@ const displayData = (data, container) => {
     <h4 class="popup__data-group-text">UTC ${
       offset > 0
         ? `+ ${String(offset).padStart("2", "0")}:00`
-        : `${String(offset).padStart("2", "0")}:00`
+        : `- 0${Math.abs(offset)}:00`
     }</h4>
   </div>
   ${
