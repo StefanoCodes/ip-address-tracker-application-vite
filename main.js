@@ -1,7 +1,5 @@
 import mapboxgl from "mapbox-gl";
 
-// TODO: fix destructuing object received from the api
-
 ("use strict");
 // SELECTIONS
 const inputField = document.querySelector(".form__input-address");
@@ -105,7 +103,6 @@ const fetchData = (url) => {
     .then((response) => response.json())
     .then(
       (responseData) => {
-        console.log(responseData);
         // guard clause incase there is a error
         if (responseData.message) {
           errorLabel.textContent = `Please Enter a correct IPV4 or IPV6 address`;
@@ -146,7 +143,6 @@ if (navigator.geolocation) {
     (position) => {
       // getting user coordinates
       const userCoordinates = getUserCoordinates(position);
-      console.log(userCoordinates);
       // assgining map to the function that creates a map
       createMap(userCoordinates, 8);
       // fetching the data at the load of the page
