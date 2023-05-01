@@ -114,6 +114,7 @@ body {
   color: pink;
   transition: all 0.3s ease-in-out;
   border-bottom: 3px solid transparent;
+  text-align: center;
 }
 .attribution__link:hover,
 .attribution__link:focus {
@@ -141,6 +142,9 @@ body {
 @media (min-width: 1000px) {
   .information__header {
     font-size: 3rem;
+  }
+  .attribution__link {
+    text-align: left;
   }
 }
 .information .form {
