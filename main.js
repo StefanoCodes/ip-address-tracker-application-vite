@@ -2,6 +2,7 @@
 import mapboxgl from "mapbox-gl";
 import displayNavigationControls from "./components/navigationControl";
 import fetchData from "./components/fetchData";
+import getUserCoordinates from "./components/getUserCoordinates";
 
 // SELECTIONS
 export const inputField = document.querySelector(".form__input-address");
@@ -27,11 +28,6 @@ export const createMap = (coords, zoom) => {
   });
 };
 
-const getUserCoordinates = (pos) => {
-  const { latitude, longitude } = pos.coords;
-  // getting user coordinates
-  return [latitude, longitude];
-};
 if (navigator.geolocation) {
   navigator.geolocation.getCurrentPosition(
     // SUCCESS CALLBACK FUNCTION

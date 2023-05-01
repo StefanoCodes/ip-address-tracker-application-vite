@@ -35,9 +35,7 @@ const fetchData = (url, inputField) => {
       setView(map, coordinates);
       return responseData;
     })
-    .catch((err) => {
-      renderError();
-    })
+    .catch(() => renderError())
     // Clearing the input field after the data has been used using .finally this basacially will run anyway either fullfiled or reject
     .finally(() => {
       inputField.value = "";
