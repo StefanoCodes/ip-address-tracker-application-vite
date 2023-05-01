@@ -107,6 +107,7 @@ body {
 .attribution {
   color: #fff;
   font-size: 1.4rem;
+  text-align: center;
 }
 .attribution__link {
   display: inline-block;
@@ -114,7 +115,6 @@ body {
   color: pink;
   transition: all 0.3s ease-in-out;
   border-bottom: 3px solid transparent;
-  text-align: center;
 }
 .attribution__link:hover,
 .attribution__link:focus {
@@ -143,7 +143,7 @@ body {
   .information__header {
     font-size: 3rem;
   }
-  .attribution__link {
+  .attribution {
     text-align: left;
   }
 }
