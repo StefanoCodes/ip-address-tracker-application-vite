@@ -1,4 +1,4 @@
-("use strict");
+"use strict";
 import mapboxgl from "mapbox-gl";
 import createMarker from "./components/createMarker";
 import createPopup from "./components/createPopup";
