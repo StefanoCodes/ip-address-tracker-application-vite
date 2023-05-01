@@ -43,6 +43,6 @@ const displayData = (data, container) => {
 </div>
 </div>`;
   `${container.insertAdjacentHTML("beforeend", html)}`;
-  return [latitude, longitude];
+  return [longitude, latitude];
 };
 export default displayData;

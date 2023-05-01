@@ -34,6 +34,7 @@ if (navigator.geolocation) {
     (position) => {
       // getting user coordinates
       const userCoordinates = getUserCoordinates(position);
+      console.log(userCoordinates);
       // assgining map to the function that creates a map
       map = createMap(userCoordinates, 8, map);
       // showing zoom controls on the map;
