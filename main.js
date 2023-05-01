@@ -12,10 +12,10 @@ const informationContainer = document.querySelector(".information");
 const errorLabel = document.querySelector(".error-label");
 
 // MAPBOX RELATED INFO
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoic3RlZmFuby12aWRtYXIiLCJhIjoiY2xndXMxYWozMG84NDNnbzU5amxna2gyYSJ9.D26LMla7xGwC_NJRZMnODA";
+mapboxgl.accessToken = `${import.meta.env.VITE_MAPBOX_TOKEN}`;
+
 // API RELATED INFO
-const GEOLOCATION_API_KEY = `c44734fe3c4247e581164b9fc60221d4`;
+const GEOLOCATION_API_KEY = `${import.meta.env.VITE_GEOLOCATION_API_KEY}`;
 const GEOLOCATION_BASE_URL = `https://api.ipgeolocation.io/ipgeo?apiKey=${GEOLOCATION_API_KEY}`;
 
 // GLOBALS
