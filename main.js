@@ -4,7 +4,6 @@ import createMarker from "./components/createMarker";
 import createPopup from "./components/createPopup";
 import displayData from "./components/displayingData";
 import displayNavigationControls from "./components/navigationControl";
-import { response } from "express";
 
 // SELECTIONS
 const inputField = document.querySelector(".form__input-address");
@@ -47,10 +46,9 @@ const getUserCoordinates = (pos) => {
   // getting user coordinates
   return [latitude, longitude];
 };
-const renderError = (err) => {
+const renderError = () => {
   errorLabel.textContent = `Please Enter a correct IPV4 or IPV6 address`;
   inputField.classList.add("error-input");
-  console.error(err);
 };
 const fetchData = (url) => {
   getDataToJSON(url)
@@ -83,9 +81,7 @@ const fetchData = (url) => {
       setView(map, coordinates);
       return responseData;
     })
-    .catch((error) => {
-      renderError(error);
-    })
+    .catch(() => renderError())
     // Clearing the input field after the data has been used using .finally this basacially will run anyway either fullfiled or reject
     .finally(() => {
       inputField.value = "";
