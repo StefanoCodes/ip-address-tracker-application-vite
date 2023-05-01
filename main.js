@@ -53,13 +53,6 @@ const renderError = () => {
 const fetchData = (url) => {
   getDataToJSON(url)
     .then((responseData) => {
-      console.log(responseData);
-      // guard clause incase there is a error
-      if (responseData.message) {
-        errorLabel.textContent = `Please Enter a correct IPV4 or IPV6 address`;
-        inputField.classList.add("error-input");
-        return;
-      }
       const coordinates = displayData(responseData, informationContainer);
       if (
         coordinates[0] < -99 ||
@@ -81,7 +74,10 @@ const fetchData = (url) => {
       setView(map, coordinates);
       return responseData;
     })
-    .catch(() => renderError())
+    .catch(() => {
+      console.log("this line ran when the app detected an error");
+      return renderError();
+    })
     // Clearing the input field after the data has been used using .finally this basacially will run anyway either fullfiled or reject
     .finally(() => {
       inputField.value = "";
