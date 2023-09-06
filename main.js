@@ -5,10 +5,12 @@ import fetchData from "./components/fetchData";
 import getUserCoordinates from "./components/getUserCoordinates";
 
 // SELECTIONS
-export const inputField = document.querySelector(".form__input-address");
+const inputField = document.querySelector(".form__input-address");
 const submitButton = document.querySelector(".form__btn");
-export const informationContainer = document.querySelector(".information");
-export const errorLabel = document.querySelector(".error-label");
+const informationContainer = document.querySelector(".information");
+const errorLabel = document.querySelector(".error-label");
+let map;
+export { inputField, informationContainer, errorLabel, map };
 
 // MAPBOX RELATED INFO
 mapboxgl.accessToken = `pk.eyJ1Ijoic3RlZmFuby12aWRtYXIiLCJhIjoiY2xndXMxYWozMG84NDNnbzU5amxna2gyYSJ9.D26LMla7xGwC_NJRZMnODA`;
@@ -17,8 +19,6 @@ mapboxgl.accessToken = `pk.eyJ1Ijoic3RlZmFuby12aWRtYXIiLCJhIjoiY2xndXMxYWozMG84N
 const GEOLOCATION_API_KEY = `c44734fe3c4247e581164b9fc60221d4`;
 const GEOLOCATION_BASE_URL = `https://api.ipgeolocation.io/ipgeo?apiKey=${GEOLOCATION_API_KEY}`;
 
-// Creating the map
-export let map;
 export const createMap = (coords, zoom) => {
   return new mapboxgl.Map({
     container: "map",
@@ -35,7 +35,7 @@ if (navigator.geolocation) {
       // getting user coordinates
       const userCoordinates = getUserCoordinates(position);
       // assgining map to the function that creates a map
-      map = createMap(userCoordinates, 8, map);
+      map = createMap(userCoordinates, 20, map);
       // showing zoom controls on the map;
       map.addControl(displayNavigationControls(), "bottom-right");
       // fetching the data at the load of the page

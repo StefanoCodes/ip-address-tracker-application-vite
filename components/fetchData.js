@@ -11,35 +11,31 @@ const checkCoordinatesInvalid = (coords) => {
   return coords[0] < -99 || coords[0] > 99 || coords[1] < -99 || coords[1] > 99;
 };
 
-const fetchData = (url, inputField) => {
-  getDataToJSON(url)
-    .then((responseData) => {
-      if (responseData.message) {
-        renderError();
-        return;
-      }
-      const coordinates = displayData(responseData, informationContainer);
-      if (checkCoordinatesInvalid(coordinates)) {
-        return alert(
-          "invalid coordinates therefore no marker will show up but here are the information regarding the ip address inputted"
-        );
-      }
+const fetchData = async (url, inputField) => {
+  try {
+    // BUG: note that im still fetching the data even tough the ip address is invalid im only able to discover this when the responseData is converted to JSON and it has the property message
+    // SOLUTION: is before fetching the data the input field should check that the ip address is valid
+    const responseData = await getDataToJSON(url);
+    if (responseData.message)
+      throw new Error("Please Enter a correct IPV4 or IPV6 address");
+    const coordinates = displayData(responseData, informationContainer);
+    if (checkCoordinatesInvalid(coordinates))
+      throw new Error("invalid coordinates therefore no marker will show up");
 
-      const popup = createPopup(
-        40,
-        `IP Address: ${responseData.ip}  Latitude: ${responseData.latitude} Longitude: ${responseData.longitude}`
-      );
-      createMarker("black", coordinates, popup, map);
+    const popup = createPopup(
+      40,
+      `IP Address: ${responseData.ip}  Latitude: ${responseData.latitude} Longitude: ${responseData.longitude}`
+    );
+    createMarker("black", coordinates, popup, map);
 
-      // move to marker on map when the marker is rendered
-      setView(map, coordinates);
-      return responseData;
-    })
-    .catch(() => renderError())
-    // Clearing the input field after the data has been used using .finally this basacially will run anyway either fullfiled or reject
-    .finally(() => {
-      inputField.value = "";
-    });
+    // move to marker on map when the marker is rendered
+    setView(map, coordinates);
+    return responseData;
+  } catch (error) {
+    renderError(error.message);
+  }
+  // anything outside the try catch bloc is considered finally
+  inputField.value = "";
 };
 
 export default fetchData;
